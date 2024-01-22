@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5.0f;
     private Vector2 _direction = Vector2.zero;
+    private Vector2 _lastDirection;
 
     void Update()
     {
@@ -40,7 +41,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
+            _lastDirection = _direction;
             _direction = Vector2.zero;
+        }
+    }
+    
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            if (_lastDirection == _direction)
+            {
+                _direction = Vector2.zero;
+            }
         }
     }
 }
