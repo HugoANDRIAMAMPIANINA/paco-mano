@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float speed = 2.5f;
     private Vector2 _direction = Vector2.zero;
     private Vector2 _lastDirection;
 

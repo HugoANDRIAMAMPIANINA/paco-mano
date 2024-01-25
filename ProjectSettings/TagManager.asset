@@ -8,6 +8,10 @@ TagManager:
   - Enemy
   - Food
   - Pacgum
+  - PinkyWaypoint
+  - BlinkyWaypoint
+  - ClydeWaypoint
+  - InkyWaypoint
   layers:
   - Default
   - TransparentFX
