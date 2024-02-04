@@ -8,16 +8,45 @@ public class PlayerCollision : MonoBehaviour
 {
     public ScoreHandler scoreHandler;
     public PhantomSpawn phantomSpawn;
-    private bool _isAngry = false;
+    public GameObject gameOverPanel;
+    private bool _isAngry;
     private TextMeshProUGUI _playerStatus;
+    private TextMeshProUGUI _scoreText;
+    private TextMeshProUGUI _finalScoreText;
+
+    private void Start()
+    {
+        Time.timeScale = 1;
+        _isAngry = false;
+        _scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        _finalScoreText = GameObject.Find("FinalScoreText").GetComponent<TextMeshProUGUI>();
+        gameOverPanel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (GameObject.FindGameObjectsWithTag("Food").Length == 0)
+        {
+            GameOver();
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
             string phantomName = other.gameObject.name;
-            Destroy(_isAngry ? other.gameObject : gameObject);
-            StartCoroutine(SpawnPhantom(phantomName));
+            if (_isAngry)
+            {
+                Destroy(other.gameObject);
+                scoreHandler.UpdateScore(20);
+                StartCoroutine(SpawnPhantom(phantomName));
+            }
+            else
+            {
+                Destroy(gameObject);
+                GameOver();
+            }
         }
         
         if (other.gameObject.CompareTag("Food"))
@@ -29,6 +58,7 @@ public class PlayerCollision : MonoBehaviour
         if (other.gameObject.CompareTag("Pacgum"))
         {
             Destroy(other.gameObject);
+            scoreHandler.UpdateScore(10);
             StartCoroutine(AngryMode());
         }
     }
@@ -62,5 +92,14 @@ public class PlayerCollision : MonoBehaviour
                 phantomSpawn.ClydeSpawn();
                 break;
         }
+    }
+
+    private void GameOver()
+    {
+        Time.timeScale = 0;
+        _scoreText.enabled = false;
+        gameOverPanel.SetActive(true);
+        GameObject.Find("PlayerStatus").GetComponent<TextMeshProUGUI>().enabled = false;
+        _finalScoreText.text = $"Your score : {scoreHandler.GetScore()}";
     }
 }

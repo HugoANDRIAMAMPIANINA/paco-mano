@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
-    public void OnPlayButton ()
+    public void OnPlayButton()
     {
         SceneManager.LoadScene(1);
     }
     
-    public void OnQuitButton ()
+    public void OnQuitButton()
     {
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

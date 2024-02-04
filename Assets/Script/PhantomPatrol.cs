@@ -44,6 +44,7 @@ public class PhantomPatrol : MonoBehaviour
         } else {
             gameObjects = GameObject.FindGameObjectsWithTag("InkyWaypoint");
         }
+        gameObjects = gameObjects.OrderBy(wp => wp.name).ToArray();
 
         _waypoints = new Transform[gameObjects.Length];
         for (var i = 0; i < gameObjects.Length; i++)
